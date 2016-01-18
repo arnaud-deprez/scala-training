@@ -1,7 +1,15 @@
-organization := "be.arndep.scala"
+import sbt._
+import training.{Dependencies, Settings}
 
 name := "scala-training"
 
-version := "1.0.0-SNAPSHOT"
+lazy val root = project.in(file("."))
+	.settings(Settings.commonSettings)
 
-scalaVersion := "2.11.6"
+lazy val forTheImpatient = project.in(file("for-the-impatient"))
+	.settings(Settings.commonSettings)
+	.settings(Dependencies.forTheImpatient)
+
+lazy val circuit = project.in(file("circuit"))
+	.settings(Settings.commonSettings)
+	.settings(Dependencies.circuit)
