@@ -1,4 +1,4 @@
-import be.arndep.scala.event.{Parameters, Circuits}
+import be.arndep.scala.circuit.{Parameters, Circuits}
 
 object sim extends Circuits with Parameters
 import sim._

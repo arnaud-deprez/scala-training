@@ -1,7 +1,7 @@
 import training.{Dependencies, Settings}
 
-name := "circuit"
+name := "reactive-programing"
 
 Settings.commonSettings
 
-Dependencies.circuit
+Dependencies.reactivePrograming

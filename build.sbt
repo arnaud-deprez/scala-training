@@ -10,6 +10,6 @@ lazy val forTheImpatient = project.in(file("for-the-impatient"))
 	.settings(Settings.commonSettings)
 	.settings(Dependencies.forTheImpatient)
 
-lazy val circuit = project.in(file("circuit"))
+lazy val reactivePrograming = project.in(file("reactive-programing"))
 	.settings(Settings.commonSettings)
-	.settings(Dependencies.circuit)
+	.settings(Dependencies.reactivePrograming)

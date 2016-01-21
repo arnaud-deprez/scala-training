@@ -1,4 +1,4 @@
-package be.arndep.scala.event
+package be.arndep.scala.circuit
 
 /**
 	* Created by arnaud.deprez on 16/01/16.

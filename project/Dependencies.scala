@@ -18,5 +18,5 @@ object Dependencies {
 	 */
 	val l = libraryDependencies
 	val forTheImpatient = l ++= Seq(junit, assertj, scalaTest, scalaParser, akkaActor)
-	val circuit = l ++= Seq(junit, assertj, scalaTest, akkaActor)
+	val reactivePrograming = l ++= Seq(junit, assertj, scalaTest, akkaActor)
 }
