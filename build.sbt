@@ -5,6 +5,7 @@ name := "scala-training"
 
 lazy val root = project.in(file("."))
 	.settings(Settings.commonSettings)
+  .aggregate(forTheImpatient, reactivePrograming)
 
 lazy val forTheImpatient = project.in(file("for-the-impatient"))
 	.settings(Settings.commonSettings)

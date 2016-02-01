@@ -12,11 +12,12 @@ object Dependencies {
 	val scalaTest = "org.scalatest" %% "scalatest" % "2.2.6"
 	val scalaParser = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4"
 	val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.3.12"
+	val rxScala = "io.reactivex" %% "rxscala" % "0.26.0"
 
 	/**
 	 * Projects
 	 */
 	val l = libraryDependencies
 	val forTheImpatient = l ++= Seq(junit, assertj, scalaTest, scalaParser, akkaActor)
-	val reactivePrograming = l ++= Seq(junit, assertj, scalaTest, akkaActor)
+	val reactivePrograming = l ++= Seq(junit, assertj, scalaTest, akkaActor, rxScala)
 }
