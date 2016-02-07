@@ -1,5 +1,8 @@
 package be.arndep.scala.rx
 
+import be.arndep.scala.rx.usgs.Magnitude.Magnitude
+import be.arndep.scala.rx.geocode._
+import be.arndep.scala.rx.usgs._
 import rx.lang.scala.Observable
 
 import scala.concurrent.ExecutionContext.Implicits.global

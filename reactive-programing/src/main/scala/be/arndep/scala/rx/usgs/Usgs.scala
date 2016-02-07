@@ -29,7 +29,7 @@ object Usgs {
 
 		})
 
-		subject.flatMap(collection => Observable(collection.features : _*))
+		subject.flatMap(collection => Observable.from(collection.features))
 	}
 }
 

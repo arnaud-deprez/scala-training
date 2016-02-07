@@ -4,6 +4,7 @@ import rx.lang.scala.Observable
 import rx.lang.scala.subjects.AsyncSubject
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
 	* Created by arnaud.deprez on 7/02/16.
@@ -14,7 +15,7 @@ object ToObservable {
 
 		future.onSuccess{
 			case s => {
-				subject.onNext(s);
+				subject.onNext(s)
 				subject.onCompleted()
 			}
 		}
