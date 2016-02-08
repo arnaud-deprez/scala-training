@@ -8,7 +8,7 @@ import org.junit.Assert._
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class Quizz extends JUnitSuite{
+class QuizzTest extends JUnitSuite{
 	@Test def quizI(): Unit = {
 
 		val xs = Observable.from(1 to 10)

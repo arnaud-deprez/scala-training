@@ -11,7 +11,7 @@ import scala.language.postfixOps
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class Blocking extends JUnitSuite {
+class BlockingTest extends JUnitSuite {
 	// List(0, 1, 2, 3, 4)
 	// 10
 	@Test def dontDoThisAtHomeKids(): Unit = {

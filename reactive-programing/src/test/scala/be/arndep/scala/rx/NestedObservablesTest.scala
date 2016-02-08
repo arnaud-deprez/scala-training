@@ -13,7 +13,7 @@ import scala.language.postfixOps
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class NestedObservables extends JUnitSuite {
+class NestedObservablesTest extends JUnitSuite {
 	@Test def flattenNestedStreams(): Unit = {
 
 		val xs: Observable[Int]              = Observable.from(List(3, 2, 1))

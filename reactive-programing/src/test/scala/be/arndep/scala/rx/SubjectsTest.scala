@@ -7,7 +7,7 @@ import rx.lang.scala.subjects.{AsyncSubject, BehaviorSubject, ReplaySubject, Pub
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class Subjects extends JUnitSuite{
+class SubjectsTest extends JUnitSuite{
 
 	/*
   Banana: 42

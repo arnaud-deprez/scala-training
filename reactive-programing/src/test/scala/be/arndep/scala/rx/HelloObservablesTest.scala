@@ -11,7 +11,7 @@ import scala.language.postfixOps
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class HelloObservables extends JUnitSuite {
+class HelloObservablesTest extends JUnitSuite {
 	@Test def ticks(): Unit = {
 
 		val ticks: Observable[Long]        = Observable.interval(1 second)

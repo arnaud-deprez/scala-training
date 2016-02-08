@@ -8,7 +8,7 @@ import rx.lang.scala.subscriptions._
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class Subscriptions extends JUnitSuite {
+class SubscriptionsTest extends JUnitSuite {
 	@Test def FishingI(): Unit = {
 
 		val subscription = Subscription {
