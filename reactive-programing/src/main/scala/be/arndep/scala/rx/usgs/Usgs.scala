@@ -34,6 +34,7 @@ object Usgs {
 }
 
 private trait Usgs {
-	@GET("/earthquakes/feed/geojson/all/day")
+//	@GET("/earthquakes/feed/geojson/all/day")
+	@GET("/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02")
 	def get(callback: Callback[FeatureCollection])
 }

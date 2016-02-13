@@ -1,7 +1,6 @@
 package be.arndep.scala.rx
 
-import org.junit.Test
-import org.scalatest.junit.JUnitSuite
+import org.scalatest.FlatSpec
 import rx.lang.scala.{Observable, Subscription}
 
 //import for scala duration
@@ -11,9 +10,9 @@ import scala.language.postfixOps
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class HelloObservablesTest extends JUnitSuite {
-	@Test def ticks(): Unit = {
+class HelloObservablesTest extends FlatSpec {
 
+	"The interval method in Observable" should "produces a tick" in {
 		val ticks: Observable[Long]        = Observable.interval(1 second)
 		val evens: Observable[Long]        = ticks.filter(s => s%2 == 0)
 		val buffers: Observable[Seq[Long]] = evens.slidingBuffer(2,1)

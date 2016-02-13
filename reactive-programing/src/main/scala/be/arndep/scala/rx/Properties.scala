@@ -2,20 +2,22 @@ package be.arndep.scala.rx
 
 import java.util.Date
 
+import com.google.gson.annotations.SerializedName
+
 /**
 	* Created by arnaud.deprez on 6/02/16.
 	*/
 class Properties {
 	val place: String           = null
-//	@SerializedName("time")
+	@SerializedName("time")
 	private val _time: Long     = 0L
 	@transient
 	lazy val time: Date         = new Date(_time)
-//	@SerializedName("updated")
+	@SerializedName("updated")
 	private val _updated: Long  = 0L
 	@transient
 	lazy val updated: Date      = new Date(_updated)
-//	@SerializedName("mag")
+	@SerializedName("mag")
 	val magnitude: Double       = 0D
 	val detail: String          = null
 	val felt: Int               = 0

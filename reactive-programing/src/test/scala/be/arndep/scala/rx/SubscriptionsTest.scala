@@ -1,16 +1,14 @@
 package be.arndep.scala.rx
 
-import org.junit.Test
-import org.scalatest.junit.JUnitSuite
+import org.scalatest.FlatSpec
 import rx.lang.scala.Subscription
 import rx.lang.scala.subscriptions._
 
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class SubscriptionsTest extends JUnitSuite {
-	@Test def FishingI(): Unit = {
-
+class SubscriptionsTest extends FlatSpec {
+	"A subscription" should "only be unsubscribed once" in {
 		val subscription = Subscription {
 			println("Bye, bye, I'm out fishing")
 		}
@@ -21,7 +19,7 @@ class SubscriptionsTest extends JUnitSuite {
 		subscription.unsubscribe()
 	}
 
-	@Test def Composite(): Unit = {
+	"CompositeSubscription" should "treat multiple subscription as one" in {
 		val a = Subscription { println("Apple") }
 		val b = Subscription { println("Banana") }
 		val c = Subscription{ println ("Cranberry") }
@@ -42,7 +40,7 @@ class SubscriptionsTest extends JUnitSuite {
 
 	}
 
-	@Test def Multi(): Unit = {
+	"MultipleAssignmentSubscription" should "allow us to assign multiple subscriptions" in {
 		val a = Subscription { println("Apple") }
 		val b = Subscription { println("Banana") }
 		val c = Subscription{ println ("Cranberry") }

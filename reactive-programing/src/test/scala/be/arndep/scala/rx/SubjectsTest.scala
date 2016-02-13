@@ -1,13 +1,12 @@
 package be.arndep.scala.rx
 
-import org.junit.Test
-import org.scalatest.junit.JUnitSuite
-import rx.lang.scala.subjects.{AsyncSubject, BehaviorSubject, ReplaySubject, PublishSubject}
+import org.scalatest.{FlatSpec, Matchers}
+import rx.lang.scala.subjects.{AsyncSubject, BehaviorSubject, PublishSubject, ReplaySubject}
 
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class SubjectsTest extends JUnitSuite{
+class SubjectsTest extends FlatSpec with Matchers {
 
 	/*
   Banana: 42
@@ -16,8 +15,7 @@ class SubjectsTest extends JUnitSuite{
   Banana.
   Cranberry.
    */
-	@Test def PublishSubjectIsAChannel() {
-
+	"PublishSubject" should "be a channel" in {
 		val channel = PublishSubject[Int]()
 		val a = channel.subscribe(x => println(s"Apple: $x"), e => println(s"Apple~ $e"), () => println(s"Apple."))
 		val b = channel.subscribe(x => println(s"Banana: $x"), e => println(s"Banana~ $e"), () => println(s"Banana."))
@@ -43,8 +41,7 @@ class SubjectsTest extends JUnitSuite{
 	Cranberry: 4711
 	Cranberry.
 	 */
-	@Test def ReplaySubjectIsAChannel() {
-
+	"ReplaySubject" should "be a channel" in {
 		val channel = ReplaySubject[Int]()
 		val a = channel.subscribe(x => println(s"Apple: $x"), e => println(s"Apple~ $e"), () => println(s"Apple."))
 		val b = channel.subscribe(x => println(s"Banana: $x"), e => println(s"Banana~ $e"), () => println(s"Banana."))
@@ -70,8 +67,7 @@ class SubjectsTest extends JUnitSuite{
 	Banana.
 	Cranberry.
 	 */
-	@Test def BehaviorSubjectIsACache() {
-
+	"BehaviorSubject" should "be a cache" in {
 		val channel = BehaviorSubject(2013)
 		val a = channel.subscribe(x => println(s"Apple: $x"), e => println(s"Apple~ $e"), () => println(s"Apple."))
 		val b = channel.subscribe(x => println(s"Banana: $x"), e => println(s"Banana~ $e"), () => println(s"Banana."))
@@ -94,8 +90,7 @@ class SubjectsTest extends JUnitSuite{
 	Cranberry: 4711
 	Cranberry.
 	 */
-	@Test def AsyncSubjectIsAFuture() {
-
+	"AsyncSubject" should "be a Future" in {
 		val channel = AsyncSubject[Int]()
 		val a = channel.subscribe(x => println(s"Apple: $x"), e => println(s"Apple~ $e"), () => println(s"Apple."))
 		val b = channel.subscribe(x => println(s"Banana: $x"), e => println(s"Banana~ $e"), () => println(s"Banana."))

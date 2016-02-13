@@ -3,7 +3,6 @@ package be.arndep.scala.rx
 import org.junit.Test
 import org.scalatest.junit.JUnitSuite
 import rx.lang.scala._
-import rx.lang.scala.subscriptions.MultipleAssignmentSubscription
 
 /**
 	* Since several of the sample function below run on their own thread,

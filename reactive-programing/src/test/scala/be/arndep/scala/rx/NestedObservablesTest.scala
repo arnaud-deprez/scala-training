@@ -1,10 +1,8 @@
 package be.arndep.scala.rx
 
-import Utils._
-import org.junit.Test
-import org.scalatest.junit.JUnitSuite
+import be.arndep.scala.rx.Utils._
+import org.scalatest.{FlatSpec, Matchers}
 import rx.lang.scala.Observable
-import org.junit.Assert._
 
 //import for scala duration
 import scala.concurrent.duration._
@@ -13,9 +11,9 @@ import scala.language.postfixOps
 /**
 	* Created by arnaud.deprez on 7/02/16.
 	*/
-class NestedObservablesTest extends JUnitSuite {
-	@Test def flattenNestedStreams(): Unit = {
+class NestedObservablesTest extends FlatSpec with Matchers {
 
+	"The flatten operation on Observable" should "flatten the nested stream into one stream (non blocking)" in {
 		val xs: Observable[Int]              = Observable.from(List(3, 2, 1))
 		val yss: Observable[Observable[Int]] = xs.map(x => Observable.interval(x seconds).map(_ => x).take(2))
 		val zs = yss.flatten
@@ -24,19 +22,18 @@ class NestedObservablesTest extends JUnitSuite {
 		val isFirst = list == List(1, 1, 2, 3, 2, 3)
 		val isSecond = list == List(1, 2, 1, 3, 2, 3)
 		// behavior of flatten is non-deterministic
-		assertTrue(isFirst || isSecond)
+		true should be (isFirst || isSecond)
 		if (isFirst) println("first option")
 		if (isSecond) println("second option")
 		displayObservable(zs)
 	}
 
-	@Test def concatenateNestedStreams(): Unit = {
-
+	"The concat operation on Observable" should "concat the nested stream into one stream (blocking)" in {
 		val xs: Observable[Int]              = Observable.from(List(3, 2, 1))
 		val yss: Observable[Observable[Int]] = xs.map(x => Observable.interval(x seconds).map(_ => x).take(2))
 		val zs = yss.concat
 
-		assertEquals(List(3, 3, 2, 2, 1, 1), zs.toBlocking.toList)
+		zs.toBlocking.toList should be (List(3, 3, 2, 2, 1, 1))
 		displayObservable(zs)
 	}
 
@@ -47,7 +44,7 @@ class NestedObservablesTest extends JUnitSuite {
 		* values once concat subscribes to it. So there is no buffering here, and concat is only subscribed
 		* to one inner observable at the same time.
 		*/
-	@Test def concatenateNestedStreamsWhatIsReallyGoingOn() {
+	"The concat operation on Observable explained" should "print details" in {
 		val t0 = System.currentTimeMillis
 
 		val xs: Observable[Int] = Observable.from(List(3, 2, 1))
