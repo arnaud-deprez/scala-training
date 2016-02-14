@@ -1,14 +1,10 @@
 package be.arndep.scala.fortheimpatient.exercices
 
-import java.time.{ZonedDateTime, LocalDateTime}
-import java.time.format.DateTimeFormatter
 import java.util.{Calendar, Date}
-import javax.xml.bind.DatatypeConverter
 
-import be.arndep.scala.fortheimpatient.exercices.chapter19.{Expr, MathExpressionParser}
+import be.arndep.scala.fortheimpatient.exercices.chapter19.MathExpressionParser
 
-import scala.util.parsing.combinator.syntactical.StandardTokenParsers
-import scala.util.parsing.combinator.{Parsers, RegexParsers}
+import scala.util.parsing.combinator.RegexParsers
 
 /**
  * Created by Arnaud on 16-05-15.

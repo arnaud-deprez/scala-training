@@ -21,5 +21,5 @@ object GreetingActor extends App {
 	hiActor ! Greeting("Arnaud")
 	hiActor ! "@#&!"
 
-	system.shutdown()
+	system.terminate()
 }

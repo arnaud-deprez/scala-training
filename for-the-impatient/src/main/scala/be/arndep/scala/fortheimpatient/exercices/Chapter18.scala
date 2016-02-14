@@ -1,6 +1,7 @@
 package be.arndep.scala.fortheimpatient.exercices
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.{existentials, reflectiveCalls}
 
 /**
   * Created by Arnaud on 15-05-15.

@@ -1,5 +1,7 @@
 package be.arndep.scala.fortheimpatient.exercices
 
+import scala.io.StdIn
+
 /**
  * Created by arnaud on 28/04/15.
  */
@@ -80,7 +82,7 @@ object Chapter7 extends App {
 		// to help prove I am only doing one import, and no additional qualified names, I omitted all omittable dots
 		print("Authorization token: ")
 		val username = System getProperty "user.name"
-		val password = readLine
+		val password = StdIn.readLine()
 		if ("secret" equals password) println("Hello, " + username + ". Welcome to the real world.")
 		else System.err println "Sorry, you are not identified. A robot death squad will be dispatched to your location after 3 failed attempts."
 		// You can also use Console just as well. Either way requires one dot to 'err'

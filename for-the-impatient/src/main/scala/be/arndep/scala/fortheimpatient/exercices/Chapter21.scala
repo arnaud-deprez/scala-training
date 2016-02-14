@@ -1,9 +1,10 @@
 package be.arndep.scala.fortheimpatient.exercices
 
 import java.awt.Point
-import java.nio.CharBuffer
 
 import scala.annotation.tailrec
+import scala.language.{implicitConversions, postfixOps}
+
 
 /**
  * Created by Arnaud on 23-05-15.

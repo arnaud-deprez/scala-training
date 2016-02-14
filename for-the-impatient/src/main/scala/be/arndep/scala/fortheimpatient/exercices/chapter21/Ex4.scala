@@ -1,5 +1,8 @@
 package be.arndep.scala.fortheimpatient.exercices.chapter21
 
+import scala.io.StdIn
+import scala.language.implicitConversions
+
 /**
  * Created by Arnaud on 23-05-15.
  */
@@ -14,9 +17,9 @@ object Ex4 extends App {
 			print(ask + ": ")
 
 			val value = what match {
-				case `aString` => readLine
-				case `anInt` => readInt
-				case `aDouble` => readDouble
+				case `aString` => StdIn.readLine()
+				case `anInt` => StdIn.readInt()
+				case `aDouble` => StdIn.readDouble()
 			}
 			println("You wrote " + value)
 

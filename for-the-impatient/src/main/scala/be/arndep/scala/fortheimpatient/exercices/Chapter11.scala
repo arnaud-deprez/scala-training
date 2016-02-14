@@ -2,6 +2,8 @@ package be.arndep.scala.fortheimpatient.exercices
 
 import be.arndep.scala.fortheimpatient.chapter11_operator._
 
+import scala.language.postfixOps
+
 /**
  * Created by Arnaud on 02-05-15.
  */

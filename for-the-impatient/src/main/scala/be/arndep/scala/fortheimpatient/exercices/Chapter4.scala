@@ -1,5 +1,7 @@
 package be.arndep.scala.fortheimpatient.exercices
 
+import scala.language.postfixOps
+
 /**
  * Created by arnaud on 26/04/15.
  */

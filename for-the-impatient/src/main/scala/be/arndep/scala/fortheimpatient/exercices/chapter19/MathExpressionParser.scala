@@ -1,5 +1,6 @@
 package be.arndep.scala.fortheimpatient.exercices.chapter19
 
+import scala.language.postfixOps
 import scala.util.parsing.combinator.{JavaTokenParsers, PackratParsers}
 
 /**
