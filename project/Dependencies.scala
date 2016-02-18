@@ -15,6 +15,8 @@ object Dependencies {
 	val rxScala = "io.reactivex" %% "rxscala" % "0.26.0"
 	val retrofit = "com.squareup.retrofit" % "retrofit" % "1.9.0"
 	val scalaAsync = "org.scala-lang.modules" %% "scala-async" % "0.9.5"
+	val asyncHttpClient = "com.ning" % "async-http-client" % "1.9.33"
+	val jsoup = "org.jsoup" % "jsoup" % "1.8.3"
 
 	/**
 	 * Projects
@@ -22,5 +24,5 @@ object Dependencies {
 	val l = libraryDependencies
 	val forTheImpatient = l ++= Seq(junit, assertj, scalaTest, scalaParser, akkaActor)
 	val reactivePrograming = l ++= Seq(junit, assertj, scalaTest, akkaActor, rxScala, retrofit)
-	val akkaCourse = l ++= Seq(akkaActor, junit, assertj, scalaTest)
+	val akkaCourse = l ++= Seq(akkaActor, asyncHttpClient, jsoup, junit, assertj, scalaTest)
 }
