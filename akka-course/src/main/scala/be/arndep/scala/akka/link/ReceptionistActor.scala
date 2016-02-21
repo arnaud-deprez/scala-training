@@ -9,11 +9,13 @@ import be.arndep.scala.akka.link.ReceptionistActor.{Failed, Result, Get, Job}
 class ReceptionistActor extends Actor {
 	var reqNo = 0
 
+	def controllerProps: Props = Props[ControllerActor]
+
 	def runNext(queue: Vector[Job]): Receive = {
 		reqNo += 1
 		if (queue.isEmpty) waiting
 		else {
-			val controller = context.actorOf(Props[ControllerActor], s"c$reqNo")
+			val controller = context.actorOf(controllerProps, s"c$reqNo")
 			controller ! ControllerActor.Check(queue.head.url, 2)
 			running(queue)
 		}

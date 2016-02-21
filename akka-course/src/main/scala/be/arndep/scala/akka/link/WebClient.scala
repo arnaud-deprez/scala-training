@@ -9,10 +9,14 @@ import scala.concurrent.{Future, Promise}
 /**
 	* Created by arnaud.deprez on 18/02/16.
 	*/
-object WebClient {
+trait WebClient {
+	def get(url: String)(implicit exec: Executor): Future[String]
+}
+
+object AsyncWebClient extends WebClient{
 	val client = new AsyncHttpClient
 
-	def get(url: String)(implicit exec: Executor): Future[String] = {
+	override def get(url: String)(implicit exec: Executor): Future[String] = {
 		val f = client.prepareGet(url).execute()
 		val p = Promise[String]()
 		f.addListener(new Runnable {

@@ -26,9 +26,6 @@ class LinkMainActorTest extends Actor{
 		case ReceiveTimeout =>
 			context.stop(self)
 	}
-
-	@throws[Exception](classOf[Exception])
-	override def postStop(): Unit = WebClient.shutdown()
 }
 
 object LinkMainActorTest extends App{

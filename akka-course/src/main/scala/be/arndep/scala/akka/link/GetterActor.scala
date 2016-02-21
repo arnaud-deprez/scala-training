@@ -15,8 +15,9 @@ class GetterActor(url: String, depth: Int) extends Actor with ActorLogging {
 	//The actors are run by dispatcher - potentially shared - and it can also be used to run Futures
 	implicit val exec = context.dispatcher
 
+	def client: WebClient = AsyncWebClient
 	//Send the body if Success or the error wrapped in a status if Failure
-	WebClient get url pipeTo self
+	client get url pipeTo self
 
 	def receive: Receive = {
 		case body: String =>
