@@ -1,7 +1,7 @@
 package be.arndep.scala.akka.link
 
 import akka.actor._
-import be.arndep.scala.akka.link.ControllerActor.{Result, Check}
+import be.arndep.scala.akka.link.ControllerActor.{Check, Result}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -14,24 +14,31 @@ class ControllerActor extends Actor with ActorLogging {
 	context.setReceiveTimeout(10 seconds)
 
 	var cache = Set.empty[String]
-	var children = Set.empty[ActorRef]
+
+	override val supervisorStrategy: SupervisorStrategy = OneForOneStrategy(maxNrOfRetries = 5) {
+		case _: Exception => SupervisorStrategy.Restart
+	}
+
+	def getterProps(url: String, depth: Int): Props = Props(new GetterActor(url, depth - 1))
 
 	def receive: Receive = {
 		case Check(url, depth) =>
 			log.debug("{} checking {}", depth, url)
 			if (!cache(url) && depth > 0)
-				children += context.actorOf(Props(new GetterActor(url, depth - 1)))
+				context.watch(context.actorOf(getterProps(url, depth - 1)))
 			cache += url
-		case GetterActor.Done =>
-			children -= sender
-			if (children.isEmpty)
+		case Terminated(ref) =>
+			log.debug("Receive Terminated from {}", ref)
+			if (context.children.isEmpty)
 				context.parent ! Result(cache)
-			case ReceiveTimeout => children foreach(_ ! GetterActor.Abort)
+		case ReceiveTimeout => context.children foreach context.stop
 	}
-
 }
 
 object ControllerActor {
+
 	case class Check(url: String, depth: Int)
+
 	case class Result(links: Set[String])
+
 }

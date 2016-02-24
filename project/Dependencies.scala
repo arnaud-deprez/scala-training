@@ -5,14 +5,20 @@ import sbt._
 
 object Dependencies {
 	/**
+		* versions
+		*/
+	val akkaVersion = "2.4.2"
+
+	/**
 	 * Libraries
 	 */
 	val junit = "junit" % "junit" % "4.12"
 	val assertj = "org.assertj" % "assertj-core" % "3.2.0"
 	val scalaTest = "org.scalatest" %% "scalatest" % "2.2.6"
 	val scalaParser = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4"
-	val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.4.1"
-	val akkaTest = "com.typesafe.akka" %% "akka-testkit" % "2.4.1"
+	val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
+	val akkaPersistence = "com.typesafe.akka" %% "akka-persistence" % akkaVersion
+	val akkaTest = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
 	val rxScala = "io.reactivex" %% "rxscala" % "0.26.0"
 	val retrofit = "com.squareup.retrofit" % "retrofit" % "1.9.0"
 	val scalaAsync = "org.scala-lang.modules" %% "scala-async" % "0.9.5"
@@ -25,5 +31,5 @@ object Dependencies {
 	val l = libraryDependencies
 	val forTheImpatient = l ++= Seq(junit, assertj, scalaTest, scalaParser, akkaActor)
 	val reactivePrograming = l ++= Seq(junit, assertj, scalaTest, akkaActor, rxScala, retrofit)
-	val akkaCourse = l ++= Seq(akkaActor, asyncHttpClient, jsoup, junit, assertj, scalaTest, akkaTest)
+	val akkaCourse = l ++= Seq(akkaActor, akkaPersistence, asyncHttpClient, jsoup, junit, assertj, scalaTest, akkaTest)
 }

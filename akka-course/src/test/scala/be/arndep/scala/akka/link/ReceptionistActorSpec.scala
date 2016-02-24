@@ -1,7 +1,9 @@
 package be.arndep.scala.akka.link
 
 import akka.actor.{Actor, ActorSystem, Props}
+import akka.event.LoggingReceive
 import akka.testkit.{ImplicitSender, TestKit}
+import be.arndep.scala.akka.link.ReceptionistActor.Job
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
 
 import scala.language.postfixOps
@@ -46,5 +48,13 @@ object ReceptionistActorSpec {
 	def fakeReceptionist: Props =
 		Props(new ReceptionistActor {
 			override def controllerProps: Props = Props[FakeController]
+
+			override def runNext(queue: Vector[Job]): Receive = LoggingReceive { super.runNext(queue) }
+
+			override def enqueueJob(queue: Vector[Job], job: Job): Receive = LoggingReceive { super.enqueueJob(queue, job) }
+
+			override def waiting: Receive = LoggingReceive { super.waiting }
+
+			override def running(queue: Vector[Job]): Receive = LoggingReceive { super.running(queue) }
 		})
 }

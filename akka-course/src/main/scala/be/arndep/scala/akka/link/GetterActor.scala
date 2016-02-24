@@ -1,10 +1,9 @@
 package be.arndep.scala.akka.link
 
-import akka.actor.{ActorLogging, Status, Actor}
-
+import akka.actor.{Actor, ActorLogging, Status}
 import akka.pattern._
-import be.arndep.scala.akka.link.GetterActor.{Abort, Done}
 import org.jsoup.Jsoup
+
 import scala.collection.JavaConversions._
 
 /**
@@ -23,15 +22,8 @@ class GetterActor(url: String, depth: Int) extends Actor with ActorLogging {
 		case body: String =>
 			for (link <- findLinks(body))
 				context.parent ! ControllerActor.Check(link, depth)
-			stop()
-		case _ => stop()
-		/*case _: Status.Failure => stop()
-		case _: Abort => stop()*/
-	}
-
-	def stop(): Unit = {
-		context.parent ! Done
-		context stop self
+			context stop self
+		case _: Status.Failure => context stop self
 	}
 
 	def findLinks(body: String): Iterator[String] = {
@@ -44,6 +36,6 @@ class GetterActor(url: String, depth: Int) extends Actor with ActorLogging {
 }
 
 object GetterActor {
-	case class Done()
+//	case class Done()
 	case class Abort()
 }

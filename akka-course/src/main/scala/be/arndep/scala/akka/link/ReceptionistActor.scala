@@ -1,13 +1,16 @@
 package be.arndep.scala.akka.link
 
-import akka.actor.{Props, ActorRef, Actor}
-import be.arndep.scala.akka.link.ReceptionistActor.{Failed, Result, Get, Job}
+import akka.actor._
+import be.arndep.scala.akka.link.ReceptionistActor.{Failed, Get, Job, Result}
 
 /**
 	* Created by arnaud.deprez on 18/02/16.
 	*/
 class ReceptionistActor extends Actor {
 	var reqNo = 0
+
+
+	override val supervisorStrategy: SupervisorStrategy = SupervisorStrategy.stoppingStrategy
 
 	def controllerProps: Props = Props[ControllerActor]
 
@@ -16,6 +19,7 @@ class ReceptionistActor extends Actor {
 		if (queue.isEmpty) waiting
 		else {
 			val controller = context.actorOf(controllerProps, s"c$reqNo")
+			context.watch(controller)
 			controller ! ControllerActor.Check(queue.head.url, 2)
 			running(queue)
 		}
@@ -37,8 +41,12 @@ class ReceptionistActor extends Actor {
 		case ControllerActor.Result(links) =>
 			val job = queue.head
 			job.client ! Result(job.url, links)
-			context stop sender
-			context become(runNext(queue.tail))
+			context stop (context.unwatch(sender))
+			context become (runNext(queue.tail))
+		case Terminated(_) =>
+			val job = queue.head
+			job.client ! Failed(job.url)
+			context become (runNext(queue.tail))
 		case Get(url) =>
 			context.become(enqueueJob(queue, Job(sender, url)))
 	}
@@ -47,8 +55,13 @@ class ReceptionistActor extends Actor {
 }
 
 object ReceptionistActor {
+
 	case class Get(url: String)
+
 	case class Job(client: ActorRef, url: String)
+
 	case class Result(url: String, links: Set[String])
+
 	case class Failed(url: String)
+
 }

@@ -2,12 +2,14 @@ package be.arndep.scala.akka.link
 
 import java.util.concurrent.Executor
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor._
+import akka.event.LoggingReceive
 import akka.testkit.{ImplicitSender, TestKit}
 import be.arndep.scala.akka.util.StepParent
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
 
 import scala.concurrent.Future
+import scala.language.postfixOps
 
 /**
 	* Created by arnaud.deprez on 21/02/16.
@@ -17,20 +19,26 @@ class GetterActorSpec extends TestKit(ActorSystem("GetterActorSpec"))
 
 	import GetterActorSpec._
 
-	override protected def afterAll(): Unit = system.terminate()
+	override protected def afterAll(): Unit = {
+		println("in afterAll")
+		system.terminate()
+	}
 
 	"A GetterActor" must {
 
 		"return the right body" in {
 			val getter = system.actorOf(Props(new StepParent(fakeGetterActor(firstLink, 2), testActor)), "rightBody")
-			for (link <- links(firstLink))
+			watch(getter)
+			for (link <- links(firstLink)) {
 				expectMsg(ControllerActor.Check(link, 2))
-			expectMsg(GetterActor.Done)
+			}
+			expectTerminated(getter)
 		}
 
 		"properly finish in case of error" in {
 			val getter = system.actorOf(Props(new StepParent(fakeGetterActor("unknown", 2), testActor)), "wrongLink")
-			expectMsg(GetterActor.Done)
+			watch(getter)
+			expectTerminated(getter)
 		}
 	}
 }
@@ -61,5 +69,7 @@ object GetterActorSpec {
 	def fakeGetterActor(url: String, depth: Int): Props =
 		Props(new GetterActor(url, depth) {
 			override def client: WebClient = FakeClient
+
+			override def receive: Receive = LoggingReceive { super.receive }
 		})
 }

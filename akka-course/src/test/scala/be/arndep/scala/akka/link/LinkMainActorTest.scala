@@ -13,6 +13,7 @@ class LinkMainActorTest extends Actor{
 	import ReceptionistActor._
 
 	val receptionist = context.actorOf(Props[ReceptionistActor], "receptionist")
+	context.watch(receptionist)
 
 	receptionist ! Get("http://google.be")
 
