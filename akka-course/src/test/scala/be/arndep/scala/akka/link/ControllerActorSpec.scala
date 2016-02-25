@@ -1,11 +1,14 @@
 package be.arndep.scala.akka.link
 
-import akka.actor.{Status, Actor, Props, ActorSystem}
+import akka.actor._
 import akka.event.LoggingReceive
 import akka.testkit.{ImplicitSender, TestKit}
 import be.arndep.scala.akka.link.ControllerActor.{Result, Check}
 import be.arndep.scala.akka.util.{FosterParent, StepParent}
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
+
+import scala.language.postfixOps
+import scala.concurrent.duration._
 
 /**
 	* Created by arnaud.deprez on 24/02/16.
@@ -27,6 +30,7 @@ class ControllerActorSpec extends TestKit(ActorSystem("ControllerActorSpec"))
 			watch(controller)
 			controller ! Check("myUrl", 2)
 			expectMsg(Result(Set("myUrl", "myUrl/1", "myUrl/1/0")))
+			controller ! PoisonPill
 			expectTerminated(controller)
 		}
 	}
@@ -34,13 +38,15 @@ class ControllerActorSpec extends TestKit(ActorSystem("ControllerActorSpec"))
 
 object ControllerActorSpec {
 	class FakeGetter(url: String, depth: Int) extends Actor {
-
+		import context.dispatcher
 		self ! s"$url/$depth"
 
 		override def receive: Receive = LoggingReceive {
 			case body: String =>
-				context.parent ! ControllerActor.Check(s"$url/$depth", depth)
-				context stop self
+				context.system.scheduler.scheduleOnce(30 milliseconds) {
+					context.parent ! ControllerActor.Check(s"$url/$depth", depth)
+					context stop self
+				}
 			case _: Status.Failure => context stop self
 		}
 	}

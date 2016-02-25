@@ -14,7 +14,6 @@ class ControllerActor extends Actor with ActorLogging {
 	context.setReceiveTimeout(10 seconds)
 
 	var cache = Set.empty[String]
-	var done: Boolean = false
 
 	override val supervisorStrategy: SupervisorStrategy = OneForOneStrategy(maxNrOfRetries = 5) {
 		case _: Exception => SupervisorStrategy.Restart
@@ -25,15 +24,13 @@ class ControllerActor extends Actor with ActorLogging {
 	def receive: Receive = {
 		case Check(url, depth) =>
 			log.debug("{} checking {}", depth, url)
-			done = depth == 0
 			if (!cache(url) && depth > 0)
 				context.watch(context.actorOf(getterProps(url, depth - 1)))
 			cache += url
 		case Terminated(ref) =>
 			log.debug("Receive Terminated from {}", ref)
-			if (context.children.isEmpty && done) {
+			if (context.children.isEmpty) {
 				context.parent ! Result(cache)
-				context stop self
 			}
 		case ReceiveTimeout => context.children foreach context.stop
 	}
