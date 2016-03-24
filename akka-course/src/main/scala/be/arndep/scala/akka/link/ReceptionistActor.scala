@@ -9,7 +9,6 @@ import be.arndep.scala.akka.link.ReceptionistActor.{Failed, Get, Job, Result}
 class ReceptionistActor extends Actor {
 	var reqNo = 0
 
-
 	override val supervisorStrategy: SupervisorStrategy = SupervisorStrategy.stoppingStrategy
 
 	def controllerProps: Props = Props[ControllerActor]
@@ -27,7 +26,7 @@ class ReceptionistActor extends Actor {
 
 	def enqueueJob(queue: Vector[Job], job: Job): Receive = {
 		if (queue.size > 3) {
-			sender ! Failed(job.url)
+			sender ! Failed(job.url, "Reach maximum job size")
 			running(queue)
 		}
 		else running(queue :+ job)
@@ -45,7 +44,7 @@ class ReceptionistActor extends Actor {
 			context become (runNext(queue.tail))
 		case Terminated(_) =>
 			val job = queue.head
-			job.client ! Failed(job.url)
+			job.client ! Failed(job.url, "Error")
 			context become (runNext(queue.tail))
 		case Get(url) =>
 			context.become(enqueueJob(queue, Job(sender, url)))
@@ -62,6 +61,6 @@ object ReceptionistActor {
 
 	case class Result(url: String, links: Set[String])
 
-	case class Failed(url: String)
+	case class Failed(url: String, message: String)
 
 }

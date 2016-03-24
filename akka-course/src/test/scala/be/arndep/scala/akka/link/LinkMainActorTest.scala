@@ -23,8 +23,8 @@ class LinkMainActorTest extends Actor{
 	def receive: Receive = LoggingReceive {
 		case Result(url, links) =>
 			println(links.toVector.sorted.mkString(s"Results for $url:\n", "\n", "\n"))
-		case Failed(url) =>
-			println(s"Failed to fetch $url")
+		case Failed(url, msg) =>
+			println(s"Failed to fetch $url due to: $msg")
 		case ReceiveTimeout =>
 			context.stop(self)
 	}
