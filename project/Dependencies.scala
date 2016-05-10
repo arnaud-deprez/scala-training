@@ -7,30 +7,49 @@ object Dependencies {
 	/**
 		* versions
 		*/
-	val akkaVersion = "2.4.2"
+	object Version {
+		val akka = "2.4.4"
+	}
+
+	object Akka {
+		val actor = Akka("actor")
+		val persistence = Akka("persistence")
+		val cluster = Akka("cluster")
+		val fsm = Akka("fsm")
+		val testkit = Akka("testkit") % "test"
+
+		def apply(artifact: String, version: String = Version.akka) = "com.typesafe.akka" %% s"akka-$artifact" % version
+		def all = Seq(actor, persistence, cluster, fsm, testkit)
+	}
+
+	object Test {
+		val junit = "junit" % "junit" % "4.12"
+		val assertj = "org.assertj" % "assertj-core" % "3.4.1"
+		val scalaTest = "org.scalatest" %% "scalatest" % "2.2.6"
+
+		def all = Seq(junit, assertj, scalaTest)
+	}
+
+	object ScalaModule {
+		val async = ScalaModule("async", "0.9.5")
+		val parserCombinators = ScalaModule("parser-combinators", "1.0.4")
+
+		def apply(artifact: String, version: String) = "org.scala-lang.modules" %% s"scala-$artifact" % version
+	}
 
 	/**
 	 * Libraries
 	 */
-	val junit = "junit" % "junit" % "4.12"
-	val assertj = "org.assertj" % "assertj-core" % "3.2.0"
-	val scalaTest = "org.scalatest" %% "scalatest" % "2.2.6"
-	val scalaParser = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4"
-	val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
-	val akkaPersistence = "com.typesafe.akka" %% "akka-persistence" % akkaVersion
-	val akkaCluster = "com.typesafe.akka" %% "akka-cluster" % akkaVersion
-	val akkaTest = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
-	val rxScala = "io.reactivex" %% "rxscala" % "0.26.0"
+	val rxScala = "io.reactivex" %% "rxscala" % "0.26.1"
 	val retrofit = "com.squareup.retrofit" % "retrofit" % "1.9.0"
-	val scalaAsync = "org.scala-lang.modules" %% "scala-async" % "0.9.5"
-	val asyncHttpClient = "com.ning" % "async-http-client" % "1.9.33"
-	val jsoup = "org.jsoup" % "jsoup" % "1.8.3"
+	val asyncHttpClient = "com.ning" % "async-http-client" % "1.9.38"
+	val jsoup = "org.jsoup" % "jsoup" % "1.9.1"
 
 	/**
 	 * Projects
 	 */
 	val l = libraryDependencies
-	val forTheImpatient = l ++= Seq(junit, assertj, scalaTest, scalaParser, akkaActor)
-	val reactivePrograming = l ++= Seq(junit, assertj, scalaTest, akkaActor, rxScala, retrofit)
-	val akkaCourse = l ++= Seq(akkaActor, akkaPersistence, akkaCluster, asyncHttpClient, jsoup, junit, assertj, scalaTest, akkaTest)
+	val forTheImpatient = l ++= Seq(ScalaModule.parserCombinators, Akka.actor) ++ Test.all
+	val reactivePrograming = l ++= Seq(Akka.actor, rxScala, retrofit) ++ Test.all
+	val akkaCourse = l ++= Seq(asyncHttpClient, jsoup) ++ Akka.all ++ Test.all
 }
